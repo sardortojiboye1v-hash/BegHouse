@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="BegHouse — уютная дача с бассейном для отдыха компанией до 20 человек." />
+  <title>BegHouse — аренда дачи</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --dark: #10251c;
+      --green: #1d5b43;
+      --green-2: #2f7b5c;
+      --cream: #f7f3e9;
+      --white: #ffffff;
+      --gold: #d8b269;
+      --danger: #a93636;
+      --muted: #6b756f;
+      --shadow: 0 24px 60px rgba(16, 37, 28, 0.16);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Manrope", sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 50;
+      background: rgba(16, 37, 28, 0.78);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,.12);
+    }
+
+    .nav {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.5px;
+    }
+
+    .logo span {
+      color: var(--gold);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      color: rgba(255,255,255,.86);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .nav-links a:hover {
+      color: var(--white);
+    }
+
+    .nav-btn {
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: var(--gold);
+      color: var(--dark);
+      font-weight: 800;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      align-items: end;
+      position: relative;
+      background:
+        linear-gradient(90deg, rgba(10,24,18,.84) 0%, rgba(10,24,18,.52) 46%, rgba(10,24,18,.14) 100%),
+        url("images/house.jpg") center/cover no-repeat;
+      color: var(--white);
+      padding: 150px 0 80px;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 180px;
+      background: linear-gradient(transparent, rgba(10,24,18,.7));
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 760px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 10px 15px;
+      border: 1px solid rgba(255,255,255,.25);
+      background: rgba(255,255,255,.10);
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 24px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 0 6px rgba(216,178,105,.17);
+    }
+
+    h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(56px, 8vw, 104px);
+      line-height: .92;
+      letter-spacing: -3px;
+      margin-bottom: 26px;
+    }
+
+    .hero-text {
+      max-width: 620px;
+      color: rgba(255,255,255,.82);
+      font-size: 18px;
+      margin-bottom: 34px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 42px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 54px;
+      padding: 0 24px;
+      border-radius: 14px;
+      border: 1px solid transparent;
+      font-weight: 800;
+      transition: .25s ease;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--dark);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(216,178,105,.25);
+    }
+
+    .btn-secondary {
+      color: var(--white);
+      border-color: rgba(255,255,255,.32);
+      background: rgba(255,255,255,.08);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,.16);
+    }
+
+    .hero-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .stat {
+      min-width: 160px;
+      padding: 17px 20px;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 18px;
+      backdrop-filter: blur(9px);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 23px;
+      color: var(--white);
+    }
+
+    .stat span {
+      color: rgba(255,255,255,.67);
+      font-size: 13px;
+    }
+
+    section {
+      padding: 96px 0;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 30px;
+      margin-bottom: 36px;
+    }
+
+    .section-kicker {
+      color: var(--green-2);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 800;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(40px, 5vw, 64px);
+      line-height: 1.04;
+      letter-spacing: -1.5px;
+    }
+
+    .section-subtitle {
+      max-width: 520px;
+      color: var(--muted);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1.3fr .7fr;
+      grid-template-rows: 310px 310px;
+      gap: 18px;
+    }
+
+    .gallery-item {
+      overflow: hidden;
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .gallery-item:first-child {
+      grid-row: span 2;
+    }
+
+    .gallery-item img {
+      height: 100%;
+      transition: transform .55s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .features {
+      background: var(--dark);
+      color: var(--white);
+    }
+
+    .features .section-kicker {
+      color: var(--gold);
+    }
+
+    .features .section-subtitle {
+      color: rgba(255,255,255,.62);
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .feature-card {
+      padding: 26px;
+      min-height: 210px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.11);
+      background: rgba(255,255,255,.06);
+      transition: .25s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      background: rgba(255,255,255,.09);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: var(--gold);
+      color: var(--dark);
+      font-size: 23px;
+      margin-bottom: 35px;
+    }
+
+    .feature-card h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .feature-card p {
+      color: rgba(255,255,255,.62);
+      font-size: 14px;
+    }
+
+    .price-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 26px;
+      align-items: stretch;
+    }
+
+    .price-card,
+    .warning-card {
+      border-radius: 28px;
+      padding: 38px;
+      box-shadow: var(--shadow);
+    }
+
+    .price-card {
+      background: var(--white);
+    }
+
+    .price-label {
+      color: var(--green-2);
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .price {
+      font-size: clamp(52px, 7vw, 82px);
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: -4px;
+      margin-bottom: 12px;
+    }
+
+    .price small {
+      font-size: 23px;
+      letter-spacing: 0;
+    }
+
+    .price-note {
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    .price-list {
+      display: grid;
+      gap: 13px;
+      margin-bottom: 30px;
+    }
+
+    .price-list div {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: 600;
+    }
+
+    .price-list div::before {
+      content: "✓";
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #e5f1eb;
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .warning-card {
+      background: #fff3f0;
+      border: 1px solid #ffd8d0;
+    }
+
+    .warning-badge {
+      display: inline-block;
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: var(--danger);
+      color: white;
+      font-weight: 800;
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    .warning-card h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 38px;
+      line-height: 1.1;
+      margin-bottom: 17px;
+    }
+
+    .warning-card p {
+      color: #73524d;
+      margin-bottom: 18px;
+    }
+
+    .rules {
+      display: grid;
+      gap: 12px;
+    }
+
+    .rule {
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.7);
+      font-weight: 700;
+      color: #5e3a35;
+    }
+
+    .contact {
+      padding-top: 10px;
+    }
+
+    .contact-box {
+      position: relative;
+      overflow: hidden;
+      border-radius: 30px;
+      padding: 60px;
+      background:
+        linear-gradient(90deg, rgba(16,37,28,.94), rgba(16,37,28,.70)),
+        url("images/pool.jpg") center/cover no-repeat;
+      color: var(--white);
+      box-shadow: var(--shadow);
+    }
+
+    .contact-box h2 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(42px, 6vw, 70px);
+      line-height: 1;
+      max-width: 740px;
+      margin-bottom: 18px;
+    }
+
+    .contact-box p {
+      color: rgba(255,255,255,.72);
+      max-width: 590px;
+      margin-bottom: 28px;
+    }
+
+    .footer {
+      padding: 34px 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .nav-links a:not(.nav-btn) {
+        display: none;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 430px 240px;
+      }
+
+      .gallery-item:first-child {
+        grid-column: span 2;
+        grid-row: auto;
+      }
+
+      .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .price-wrap {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        width: min(100% - 24px, 1180px);
+      }
+
+      .nav {
+        min-height: 68px;
+      }
+
+      .logo {
+        font-size: 21px;
+      }
+
+      .nav-btn {
+        padding: 10px 14px;
+        font-size: 13px;
+      }
+
+      .hero {
+        min-height: 92vh;
+        padding: 125px 0 52px;
+        background-position: 58% center;
+      }
+
+      h1 {
+        font-size: 58px;
+        letter-spacing: -2px;
+      }
+
+      .hero-text {
+        font-size: 16px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .hero-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .stat {
+        min-width: 0;
+        padding: 14px;
+      }
+
+      section {
+        padding: 70px 0;
+      }
+
+      .section-head {
+        display: block;
+      }
+
+      .section-subtitle {
+        margin-top: 14px;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(3, 270px);
+      }
+
+      .gallery-item:first-child {
+        grid-column: auto;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-card {
+        min-height: auto;
+      }
+
+      .feature-icon {
+        margin-bottom: 24px;
+      }
+
+      .price-card,
+      .warning-card {
+        padding: 26px;
+      }
+
+      .price {
+        font-size: 58px;
+      }
+
+      .contact-box {
+        padding: 38px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="container nav">
+      <a href="#" class="logo">Beg<span>House</span></a>
+
+      <nav class="nav-links">
+        <a href="#gallery">Фотографии</a>
+        <a href="#features">Удобства</a>
+        <a href="#price">Цена</a>
+        <a href="#contact" class="nav-btn">Забронировать</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <div class="eyebrow">Дача для семейного отдыха</div>
+
+          <h1>BegHouse</h1>
+
+          <p class="hero-text">
+            Просторная двухэтажная дача для отдыха круглый год: летний и зимний бассейны,
+            сауна, бильярд, PS5, много спальных комнат и большая открытая кухня.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#contact" class="btn btn-primary">Забронировать дату</a>
+            <a href="#gallery" class="btn btn-secondary">Посмотреть фотографии</a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat">
+              <strong>300–350 $</strong>
+              <span>стоимость аренды</span>
+            </div>
+
+            <div class="stat">
+              <strong>до 20</strong>
+              <span>человек максимум</span>
+            </div>
+
+            <div class="stat">
+              <strong>Бассейн</strong>
+              <span>на территории</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Атмосфера BegHouse</div>
+            <h2 class="section-title">Красивый отдых<br>в уютном месте</h2>
+          </div>
+
+          <p class="section-subtitle">
+            Двухэтажный дом с большим количеством спальных комнат, ухоженным двором,
+            бассейнами, сауной и развлечениями для комфортного отдыха компанией.
+          </p>
+        </div>
+
+        <div class="gallery-grid">
+          <div class="gallery-item">
+            <img src="images/pool.jpg" alt="Бассейн во дворе BegHouse">
+          </div>
+
+          <div class="gallery-item">
+            <img src="images/bedroom.jpg" alt="Спальная комната BegHouse">
+          </div>
+
+          <div class="gallery-item">
+            <img src="images/yard-night.jpg" alt="Двор BegHouse ночью">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features" id="features">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Всё для отдыха</div>
+            <h2 class="section-title">Комфорт для<br>вашей компании</h2>
+          </div>
+
+          <p class="section-subtitle">
+            В BegHouse есть всё необходимое для отдыха в любое время года:
+            бассейны, сауна, игры, кухня, парковка и просторные комнаты.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card">
+            <div class="feature-icon">🏊</div>
+            <h3>Летний бассейн</h3>
+            <p>Большой открытый бассейн, который регулярно чистят и обслуживают.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">♨️</div>
+            <h3>Зимний бассейн</h3>
+            <p>Крытый бассейн для комфортного отдыха даже в холодное время года.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">🧖</div>
+            <h3>Сауна</h3>
+            <p>Отдельная зона для отдыха и расслабления после бассейна.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">🎱</div>
+            <h3>Бильярд</h3>
+            <p>Бильярдный стол для вечернего отдыха и развлечений с друзьями.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">🎮</div>
+            <h3>PlayStation 5</h3>
+            <p>Современная игровая приставка PS5 для детей и взрослых.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">🛏️</div>
+            <h3>Много спальных комнат</h3>
+            <p>Несколько просторных комнат и удобные спальные места для гостей.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">🏠</div>
+            <h3>Два этажа</h3>
+            <p>Большой двухэтажный дом с отдельными зонами отдыха.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">🍖</div>
+            <h3>Открытая кухня</h3>
+            <p>Летняя кухня с мангалом, холодильником и местом для приготовления еды.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">🚗</div>
+            <h3>Парковка</h3>
+            <p>На территории предусмотрено удобное место для парковки автомобилей.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">🗑️</div>
+            <h3>Чистота и удобство</h3>
+            <p>На территории установлены мусорные ведра для поддержания порядка.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">🌲</div>
+            <h3>Зелёный двор</h3>
+            <p>Ухоженная территория, хвойные деревья и уютные места для отдыха.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">👥</div>
+            <h3>До 20 человек</h3>
+            <p>Максимальная вместимость дачи — не более двадцати гостей.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="price">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Стоимость и правила</div>
+            <h2 class="section-title">Прозрачные условия<br>без сюрпризов</h2>
+          </div>
+        </div>
+
+        <div class="price-wrap">
+          <div class="price-card">
+            <div class="price-label">Цена аренды</div>
+            <div class="price">300–350 <small>$</small></div>
+
+            <p class="price-note">
+              Точная стоимость зависит от даты, дня недели и количества гостей.
+            </p>
+
+            <div class="price-list">
+              <div>Максимум 20 человек</div>
+              <div>Летний и зимний бассейны</div>
+              <div>Сауна, бильярд и PS5</div>
+              <div>Открытая кухня, мангал и холодильник</div>
+              <div>Парковочное место</div>
+              <div>Предварительное бронирование</div>
+            </div>
+
+            <a href="#contact" class="btn btn-primary">Узнать свободную дату</a>
+          </div>
+
+          <div class="warning-card">
+            <div class="warning-badge">⚠ Осторожно: действуют штрафы</div>
+
+            <h3>Пожалуйста, соблюдайте правила дома</h3>
+
+            <p>
+              За нарушение правил, порчу имущества и превышение количества
+              гостей могут применяться штрафы. Подробные условия уточняйте
+              перед бронированием.
+            </p>
+
+            <div class="rules">
+              <div class="rule">Не более 20 гостей</div>
+              <div class="rule">Бережное отношение к имуществу</div>
+              <div class="rule">Соблюдение чистоты и порядка</div>
+              <div class="rule">Безопасное поведение возле бассейна</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="container">
+        <div class="contact-box">
+          <h2>Забронируйте BegHouse</h2>
+
+          <p>
+            Напишите нам, чтобы уточнить свободные даты, окончательную цену
+            и подробные правила проживания.
+          </p>
+
+          <!-- ЗАМЕНИТЕ ССЫЛКИ НИЖЕ НА СВОИ -->
+          <div class="hero-actions">
+            <a href="https://t.me/USERNAME" target="_blank" class="btn btn-primary">
+              Написать в Telegram
+            </a>
+
+            <a href="tel:+998000000000" class="btn btn-secondary">
+              Позвонить
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      © 2026 BegHouse. Все права защищены.
+    </div>
+  </footer>
+
+</body>
+</html>
